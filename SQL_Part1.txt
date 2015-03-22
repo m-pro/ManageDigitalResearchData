@@ -1,0 +1,133 @@
+sqlite>.read hollywood.sql
+
+sqlite> .schema
+CREATE TABLE people (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        born DATE );
+CREATE TABLE movies (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        released DATE NOT NULL,
+        tagline TEXT );
+CREATE TABLE roles (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        role TEXT NOT NULL,
+        movie INTEGER NOT NULL REFERENCES movies(id),
+        actor INTEGER NOT NULL REFERENCES people(id) );
+CREATE TABLE reviews (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        movie INTEGER NOT NULL REFERENCES movies(id),
+        author INTEGER NOT NULL REFERENCES people(id),
+        summary TEXT NOT NULL,
+        rating INTEGER NOT NULL );
+CREATE TABLE wrote (
+        movie INTEGER NOT NULL REFERENCES movies(id),
+        author INTEGER NOT NULL REFERENCES people(id) );
+CREATE TABLE directed (
+        movie INTEGER NOT NULL REFERENCES movies(id),
+        director INTEGER NOT NULL REFERENCES people(id) );
+CREATE TABLE produced (
+        movie INTEGER NOT NULL REFERENCES movies(id),
+        producer INTEGER NOT NULL REFERENCES people(id) );
+
+1)
+sqlite> select movies.released, movies.title from movies where movies.title like
+ '%Maguire%';
+2000|Jerry Maguire
+
+2)
+sqlite> select people.name, people.born from people where people.name like '%Bac
+on%';
+Kevin Bacon|1958
+
+3)
+sqlite> select movies.title, movies.tagline from movies where movies.title like
+"%Matrix Reloaded%";
+The Matrix Reloaded|Free your mind
+
+4)
+sqlite> select reviews.movie, movies.title from reviews join movies on movies.id
+ = reviews.movie;
+17|The Replacements
+22|Cloud Atlas
+17|The Replacements
+20|Unforgiven
+19|The Birdcage
+23|The Da Vinci Code
+7|Jerry Maguire
+17|The Replacements
+23|The Da Vinci Code
+
+5)
+sqlite> select movies.title, roles.role from roles join movies on movies.id = ro
+les.movie where movies.title like '%Unforgiven%';
+Unforgiven|Little Bill Daggett
+Unforgiven|English Bob
+Unforgiven|Bill Munny
+
+6)
+sqlite> select movies.title, roles.role from roles join movies on movies.id = ro
+les.movie where movies.title like '%Cloud%';
+Cloud Atlas|Bill Smoke
+Cloud Atlas|Haskell Moore
+Cloud Atlas|Tadeusz Kesselring
+Cloud Atlas|Nurse Noakes
+Cloud Atlas|Boardman Mephi
+Cloud Atlas|Old Georgie
+Cloud Atlas|Zachry
+Cloud Atlas|Dr. Henry Goose
+Cloud Atlas|Isaac Sachs
+Cloud Atlas|Dermot Hoggins
+Cloud Atlas|Luisa Rey
+Cloud Atlas|Jocasta Ayrs
+Cloud Atlas|Ovid
+Cloud Atlas|Meronym
+Cloud Atlas|Vyvyan Ayrs
+Cloud Atlas|Captain Molyneux
+Cloud Atlas|Timothy Cavendish
+
+7)
+sqlite> select distinct movies.title, people.name from people join movies on mov
+ies.id = roles.movie join roles on roles.actor = people.id where movies.title li
+ke "%Cloud%";
+Cloud Atlas|Hugo Weaving
+Cloud Atlas|Tom Hanks
+Cloud Atlas|Halle Berry
+Cloud Atlas|Jim Broadbent
+
+8)
+sqlite> select distinct movies.released, movies.title, people.name from people j
+oin movies on movies.id = roles.movie join roles on roles.actor = people.id wher
+e movies.released = 1995;
+1995|Johnny Mnemonic|Keanu Reeves
+1995|Apollo 13|Kevin Bacon
+1995|Stand By Me|Kiefer Sutherland
+1995|Stand By Me|Jerry O'Connell
+1995|Stand By Me|River Phoenix
+1995|Stand By Me|Corey Feldman
+1995|Stand By Me|Wil Wheaton
+1995|Stand By Me|John Cusack
+1995|Stand By Me|Marshall Bell
+1995|Apollo 13|Tom Hanks
+1995|Johnny Mnemonic|Takeshi Kitano
+1995|Johnny Mnemonic|Dina Meyer
+1995|Johnny Mnemonic|Ice-T
+1995|Apollo 13|Gary Sinise
+1995|Apollo 13|Ed Harris
+1995|Apollo 13|Bill Paxton
+
+9)
+sqlite> select movies.title, people.name from reviews join movies on movies.id =
+ reviews.movie join people on people.id = reviews.author where movies.title like
+ "%Maguire%";
+Jerry Maguire|Jessica Thompson
+
+10)
+sqlite> select people.name, movies.title from people join movies on movies.id =
+directed.movie join produced on produced.producer = people.id join directed on d
+irected.director = people.id where directed.director = produced.producer and mov
+ies.id = produced.movie;
+Rob Reiner|When Harry Met Sally
+Cameron Crowe|Jerry Maguire
+Nancy Meyers|Something's Gotta Give
