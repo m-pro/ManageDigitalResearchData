@@ -47,17 +47,22 @@ sqlite> select movies.title, movies.tagline from movies where movies.title like
 The Matrix Reloaded|Free your mind
 
 4)
-sqlite> select reviews.movie, movies.title from reviews join movies on movies.id
+sqlite> select movies.title, reviews.summary from movies join reviews on movies.id
  = reviews.movie;
-17|The Replacements
-22|Cloud Atlas
-17|The Replacements
-20|Unforgiven
-19|The Birdcage
-23|The Da Vinci Code
-7|Jerry Maguire
-17|The Replacements
-23|The Da Vinci Code
+The Replacements|Pretty funny at times
+Cloud Atlas|An amazing journey
+The Replacements|Silly, but fun
+Unforgiven|Dark, but compelling
+The Birdcage|Slapstick redeemed only by the Robin Williams and Gene Hackman's st
+ellar performances
+The Da Vinci Code|A solid romp
+Jerry Maguire|You had me at Jerry
+The Replacements|The coolest football movie ever
+The Da Vinci Code|Fun, but a little far fetched
+
+sqlite> select distinct movies.title from movies join reviews on movies.id
+ = reviews.movie;
+-> list of distinct movies
 
 5)
 sqlite> select movies.title, roles.role from roles join movies on movies.id = ro
@@ -65,6 +70,10 @@ les.movie where movies.title like '%Unforgiven%';
 Unforgiven|Little Bill Daggett
 Unforgiven|English Bob
 Unforgiven|Bill Munny
+
+sqlite> select roles.role from roles join movies on movies.id = roles.movie
+and movies.title = "Unforgiven";
+same as up, !on_and!
 
 6)
 sqlite> select movies.title, roles.role from roles join movies on movies.id = ro
@@ -96,6 +105,13 @@ Cloud Atlas|Tom Hanks
 Cloud Atlas|Halle Berry
 Cloud Atlas|Jim Broadbent
 
+sqlite> select distinct movies.title, people.name from people join roles on roles.actor = people.id 
+join movies on movies.id = roles.movie and movies.title = "Cloud Atlas";
+
+sqlite> select distinct movies.title, count(distinct people.name) from people jo
+in roles on roles.actor = people.id join movies on movies.id = roles.movie and movies.title = "Cloud Atlas";
+Cloud Atlas|4
+
 8)
 sqlite> select distinct movies.released, movies.title, people.name from people j
 oin movies on movies.id = roles.movie join roles on roles.actor = people.id wher
@@ -124,10 +140,9 @@ sqlite> select movies.title, people.name from reviews join movies on movies.id =
 Jerry Maguire|Jessica Thompson
 
 10)
-sqlite> select people.name, movies.title from people join movies on movies.id =
-directed.movie join produced on produced.producer = people.id join directed on d
-irected.director = people.id where directed.director = produced.producer and mov
-ies.id = produced.movie;
+sqlite> select distinct people.name from people join movies on movies.id = directed.movie join produced on produced.producer = people.id join directed on directed.director = people.id where directed.director = produced.producer;
 Rob Reiner|When Harry Met Sally
 Cameron Crowe|Jerry Maguire
 Nancy Meyers|Something's Gotta Give
+
+sqlite> select distinct name from people where id in (select director from directed) and id in (select producer from produced);
