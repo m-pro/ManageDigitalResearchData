@@ -1,0 +1,44 @@
+#You are making a database of sixteenth-century English plays.
+#You want to be able to keep track of information about the
+#play (when it was written, by whom, whether it is a comedy,
+#tragedy, or history, etc.); you also want to examine each play
+#by act, by scene, by speaking line, or by character.
+#people, plays, genre, characters, act, scene, line
+
+people
+*id integer
+- name text
+- born date
+
+plays
+*id integer
+- author => people.id
+- realeased date
+
+genre
+*id integer
+- genre text
+- play => play.id
+
+characters
+*id integer
+- character text
+- actor => people.id
+- play => plays.id
+
+act
+- play => plays.id
+- character => characters.id
+
+scene
+- play => plays.id
+- character => characters.id
+
+line
+* id integer
+- line text
+- play => plays.id
+- character => characters.id
+
+
+

@@ -1,0 +1,31 @@
+#You are studying popular reception of music in the nineteeth
+#century, and have a large stack of performance playbills and
+#newspaper reviews. You need to keep track of what piece of
+#music was performed when and where, by whom, and what kind of
+#review it got (as well as who wrote the review).
+#people, music, playbills, reviews
+
+people
+* id integer
+- name text
+- born date
+
+music
+* id integer
+- artist => people.id
+- title text
+- realeased date
+
+playbills
+* id integer
+- author => people.id
+- music => music.id
+- location text
+
+reviews
+* id integer
+- music => music.id
+- artist => people.id
+- author => people.id
+- rating integer
+

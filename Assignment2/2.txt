@@ -1,0 +1,39 @@
+#You are teaching a class, and you need to keep track of who
+#your students are (knowing that some might drop the class
+#along the way!), their attendance record, what their
+#scores are on each homework assignment and each test in class,
+#and how they have divided themselves into groups for the class
+#final project.
+#people, student, course, tests, assignments, scores, groups, attendance
+people
+* id integer
+- name text
+- born date
+
+student
+* id integer
+- name => people.id
+- left date
+
+course
+* id integer
+- datum date
+
+testsandassignments
+* id integer
+- datum date
+
+scores
+* id integer
+- name => student.id
+- test => testsandassignments.id
+- score = integer
+
+attendance
+- datum => course.id
+- name => student.id
+
+groups
+* id integer
+- project text
+- name => student.id

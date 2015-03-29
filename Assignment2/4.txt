@@ -1,0 +1,31 @@
+#You are the editor of an academic journal. You need a database
+#of articles that have been submitted to your journal,
+#so that you can find out what has been submitted, who wrote it,
+#who reviewed it, whether it was accepted for publication,
+#and (if so) which journal issue it appeared in
+#people, articles, reviews, journal, published
+
+people
+* id integer
+- name text
+- born date
+
+articles
+* id integer
+- author => person.id
+- topic text
+
+reviews
+* id integer
+- article => articles.id
+- author => people.id
+- recommended integer
+
+journal
+* id integer
+- title text
+- realeased date
+
+published
+- article => articles.id
+- publication => journal.id

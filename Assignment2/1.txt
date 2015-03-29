@@ -1,0 +1,19 @@
+#You are setting up a library, and need to keep track of what books
+#you have, who they have been lent out to, and when they are due back.
+#people, lent, due, books
+people
+* id integer
+- name text
+- born date
+
+books
+* id integer
+- title text
+- author text
+- printed date
+
+lent
+* id integer
+- person => people.id
+- book => books.id
+- due date
