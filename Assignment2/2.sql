@@ -1,0 +1,40 @@
+CREATE TABLE people (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name TEXT,
+	born DATE
+);
+
+CREATE TABLE student (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name INTEGER REFERENCES people(id),
+	left DATE
+);
+
+CREATE TABLE course (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	datum DATE
+);
+
+CREATE TABLE testsandassignments (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	datum DATE
+);
+
+CREATE TABLE scores (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name INTEGER REFERENCES student(id),
+	test INTEGER REFERENCES testsandassignments(id),
+	score = INTEGER
+);
+
+CREATE TABLE attendance (
+	datum INTEGER REFERENCES course(id),
+	name INTEGER REFERENCES student(id)
+);
+
+CREATE TABLE groups (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	project TEXT,
+	name INTEGER REFERENCES student(id)
+);
+

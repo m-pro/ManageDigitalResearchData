@@ -12,7 +12,7 @@ people
 
 articles
 * id integer
-- author => person.id
+- author => people.id # corrected this from 'person.id'
 - topic text
 
 reviews
