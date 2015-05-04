@@ -5,6 +5,7 @@
 #and how they have divided themselves into groups for the class
 #final project.
 #people, student, course, tests, assignments, scores, groups, attendance
+
 people
 * id integer
 - name text

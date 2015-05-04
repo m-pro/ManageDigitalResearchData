@@ -1,32 +1,37 @@
 How do you get the title of the work?
 /TEI/teiHeader/fileDesc/titleStmt/title
+//teiHeader//title/text()
 
 How do you get the title of the chapter? (Hint: it's not in a 'title' element.)
 /TEI/text/body/div/head
+//head/text()
+//div[@type="chapter"]/head
 
 What types of div appear in the document?
-/div/@n
+//div/@type
 
 What was said in French? (Hint: look for an element with the 'xml:lang' attribute set to 'fr-FR'.)
-/q[@n="fr-FR"]
+//q[@xml:lang="fr-FR"]
 
 How do you get the first footnote in the text?
-/note[1]
+//note[1]
 
 What page numbers appear in the document?
-/pb/@n
+//pb/@n
 
 How do you get the contents of page 198?
-/pb[@n="198"]/*
+//pb[@n="198"]/following-sibling::p[position()<5]
 
 How do you get the items in the list in the text?
-/list/*
+//list/*
+//list/item/text()
 
 How do you get just the second item?
-/item[2]
+//item[2]
 
 What work (author and title) was cited in the footnote?
-//bibl
+//note/bibl/(author|title)
+
 
 How do you get the paragraphs at the top of each page?
-?? /TEI
+//pb/following-sibling::p[1]
