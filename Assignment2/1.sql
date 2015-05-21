@@ -1,0 +1,20 @@
+CREATE TABLE people (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name TEXT,
+	born DATE
+);
+
+CREATE TABLE books (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	title TEXT,
+	author TEXT,
+	printed DATE
+);
+
+CREATE TABLE lent (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	person INTEGER REFERENCES people(id),
+	book INTEGER REFERENCES books(id),
+	due DATE
+);
+

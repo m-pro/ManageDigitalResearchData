@@ -1,0 +1,28 @@
+CREATE TABLE people (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name TEXT,
+	born DATE
+);
+
+CREATE TABLE music (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	artist INTEGER REFERENCES people(id),
+	title TEXT,
+	realeased DATE
+);
+
+CREATE TABLE playbills (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	author INTEGER REFERENCES people(id),
+	music INTEGER REFERENCES music(id),
+	location TEXT
+);
+
+CREATE TABLE reviews (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	music INTEGER REFERENCES music(id),
+	artist INTEGER REFERENCES people(id),
+	author INTEGER REFERENCES people(id),
+	rating INTEGER
+);
+
